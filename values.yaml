@@ -7,7 +7,6 @@ aws_region: nil
 aws_accessKey: nil
 aws_secretKey: nil
 captain_domain: nil
-company_key: nil
 cron_expression: "0 */6 * * *"
 captain_domain: nil
 s3_bucket_name: nil
