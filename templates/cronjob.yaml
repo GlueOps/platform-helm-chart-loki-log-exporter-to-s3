@@ -23,10 +23,8 @@ spec:
                 value: "{{ .Values.aws_region }}"
               - name: CAPTAIN_DOMAIN
                 value: "{{ .Values.captain_domain }}"
-              - name: COMPANY_KEY
-                value: "{{ .Values.company_key }}"
               - name: S3_BUCKET_NAME
-                value: "{{ .Values.s3_bucket_name }}"
+                value: "glueops-tenant-{{ .Values.company_key }}-primary"
               - name: LOKI_ADDR
                 value: "{{ .Values.loki_addr }}"
               image: ghcr.io/glueops/loki-log-exporter-to-s3:v0.0.1
