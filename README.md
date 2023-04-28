@@ -1,0 +1,1 @@
+# platform-helm-chart-loki-log-exporter-to-s3
