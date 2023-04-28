@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: loki-log-exporter-to-s3
+spec:
+ # Set your desired cron schedule
+  schedule: {{ .Values.cron_expression }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            # Run a container with the AWS CLI and copy the snapshot to our S3 bucket
+            - name: aws-s3-backup
+              env:
+              - name: AWS_ACCESS_KEY_ID
+                value: "{{ .Values.aws_accessKey }}"
+              - name: AWS_SECRET_ACCESS_KEY
+                value: "{{ .Values.aws_secretKey }}"
+              - name: AWS_DEFAULT_REGION
+                value: "{{ .Values.aws_region }}"
+              - name: CAPTAIN_DOMAIN
+                value: "{{ .Values.captain_domain }}"
+              - name: S3_BUCKET_NAME
+                value: "glueops-tenant-{{ .Values.company_key }}-primary"
+              - name: LOKI_ADDR
+                value: "{{ .Values.loki_addr }}"
+              image: ghcr.io/glueops/loki-log-exporter-to-s3:v0.0.1
+              command: ["/bin/bash", "-c"]
+              args:
+                - exportloki
+              volumeMounts:
+                - mountPath: /app
+                  name: loki-log-exports
+          volumes:
+          - name: loki-log-exports
+            emptyDir:
+              medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
+              sizeLimit: 2G # Set the desired size limit
+          restartPolicy: OnFailure
