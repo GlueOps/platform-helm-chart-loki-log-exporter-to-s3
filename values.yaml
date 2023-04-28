@@ -1,13 +1,19 @@
-# Default values for glueops-backup-hashicorp-vault.
+# Default values for glueops-loki-log-exporter-to-s3.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-
+# -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
 aws_region: nil
+# -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
 aws_accessKey: nil
+# -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
 aws_secretKey: nil
+# -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
+# This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
 captain_domain: nil
+# -- The cron expression for the log exporter to s3. Default is every 6 hours.
 cron_expression: "0 */6 * * *"
+# -- The company or tenant key
 company_key: nil
-s3_bucket_name: nil
+# -- The loki address. This is the same as the loki-gateway service in the glueops-core-loki namespace. You can find this by running: `kubectl get svc -n glueops-core-loki`
 loki_addr: nil
