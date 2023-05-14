@@ -28,7 +28,7 @@ spec:
                 value: "glueops-tenant-{{ .Values.company_key }}-primary"
               - name: LOKI_ADDR
                 value: "{{ .Values.loki_addr }}"
-              image: ghcr.io/glueops/loki-log-exporter-to-s3:v0.0.1
+              image: ghcr.io/glueops/loki-log-exporter-to-s3:v0.0.2
               command: ["/bin/bash", "-c"]
               args:
                 - exportloki
